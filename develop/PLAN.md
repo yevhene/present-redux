@@ -1,0 +1,29 @@
+# React, Redux and time travelers
+
+- Intro
+- React
+  - JSX
+  - Virtual DOM
+- Flux
+  - Architecture
+    - Actions
+    - Dispatcher
+    - Store
+    - View
+  - Unidirectinal Data Flow
+    - vs Two-way Databinding
+  - Drawbacks
+- Redux
+  - Principles
+    - Single source of truth
+    - State is read-only
+    - Changes are made with pure functions
+  - Reducers
+    - Example: Simple
+  - Middlewares
+    - Example: Example
+  - Example: Time travel
+  - Other
+    - Server-side rendering
+    - Testing
+- Outro
