@@ -1,0 +1,25 @@
+{
+  "name": "present-redux",
+  "version": "1.0.0",
+  "description": "Reduxz Presentation",
+  "homepage": "https://present-redux.herokuapp.com",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": {
+    "name": "Yevhen Shemet",
+    "email": "yevhene@gmail.com",
+    "web": "https://github.com/yevhene"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yevhene/present-redux.git"
+  },
+  "engines": {
+    "node": "~6.2.2"
+  },
+  "dependencies": {
+    "express": "~4.13.3"
+  },
+  "license": "MIT"
+}
