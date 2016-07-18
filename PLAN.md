@@ -1,10 +1,13 @@
-# React, Redux and time travelers
+# React, Redux and Time Travels
 
 - Intro
 - React
+  - Only View (Rich Components vs SPA)
   - JSX
   - Virtual DOM
+  - State Running (Inside components)
 - Flux
+  - Mind-framework
   - Architecture
     - Actions
     - Dispatcher
@@ -12,6 +15,7 @@
     - View
   - Unidirectinal Data Flow
     - vs Two-way Databinding
+  - State Running (Inside Components and Global)
   - Drawbacks
 - Redux
   - Principles
@@ -20,10 +24,12 @@
     - Changes are made with pure functions
   - Reducers
     - Example: Simple
+  - State Running (Global)
   - Middlewares
     - Example: Example
   - Example: Time travel
   - Other
     - Server-side rendering
     - Testing
+    - Tools
 - Outro
