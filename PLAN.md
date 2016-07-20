@@ -1,5 +1,7 @@
 # React, Redux and Time Travels
 
+>In the land of JavaScript, no one is king for long
+
 - Intro
 - React
   - Only View (Rich Components vs SPA)
