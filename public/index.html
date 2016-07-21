@@ -131,7 +131,7 @@ React.createElement('div', { className: 'commentBox' },
         <section>
           <h2>Code</h2>
 
-          <strong>src/react-example.js</strong>
+          <strong>src/pokemon-react.js</strong>
         </section>
 
         <section>
@@ -151,13 +151,14 @@ React.createElement('div', { className: 'commentBox' },
         <section>
           <h2>About</h2>
 
-          <p>TODO</p>
+          <p>Flux is the application architecture that Facebook uses for building client-side web applications. It complements React's composable view components by utilizing a </strong>unidirectional data flow</strong>.</p>
+          <p>Initial commit by <strong>Paul O’Shannessy</strong></p>
         </section>
 
         <section>
           <h2>Mind-framework</h2>
 
-          <p>TODO</p>
+          <p>It's more of a pattern rather than a formal framework, and you can start using Flux immediately without a lot of new code.</p>
         </section>
 
         <section>
@@ -166,25 +167,76 @@ React.createElement('div', { className: 'commentBox' },
           <section>
             <h3>View</h3>
 
-            <p>TODO</p>
-          </section>
-
-          <section>
-            <h3>Store</h3>
-
-            <p>TODO</p>
-          </section>
-
-          <section>
-            <h3>Actions</h3>
-
-            <p>TODO</p>
+            <strong>It is React</strong>
           </section>
 
           <section>
             <h3>Dispatcher</h3>
 
-            <p>TODO</p>
+            <p>A <strong>Single Dispatcher</strong> is the central hub that manages all data flow in a Flux application. It is essentially a registry of callbacks.</p>
+
+            <pre><code class="hljs" data-trim>
+const Dispatcher = require('flux').Dispatcher;
+
+const AppDispatcher = new Dispatcher();
+
+module.exports = AppDispatcher;
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Store</h3>
+
+            <p>Stores contain the application state...</p>
+
+            <pre><code class="hljs" data-trim>
+const EventEmitter = require('events').EventEmitter;
+
+const pokemons = [];
+
+const PokemonStore = Object.assign({}, EventEmitter.prototype, {
+  list() {
+    return pokemons;
+  }
+};
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Store (...continue)</h3>
+
+            <p>... and logic.</p>
+
+            <pre><code class="hljs" data-trim>
+const AppDispatcher = require('../dispatcher/AppDispatcher');
+
+AppDispatcher.register(function(action) {
+  switch(action.type) {
+    case 'ADD_POKEMON':
+      pokemons.push(action.pokemon);
+      PokemonStore.emit('change');
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Actions</h3>
+
+            <p>The dispatcher exposes a method that allows us to trigger a dispatch to the stores, and to include a payload of data, which we call an action. </p>
+
+            <pre><code class="hljs" data-trim>
+const AppDispatcher = require('../dispatcher/AppDispatcher');
+
+const PokemonActions = {
+  add(pokemon) {
+    AppDispatcher.dispatch({
+      type: 'ADD_POKEMON',
+      pokemon: pokemon
+    });
+  }
+}
+            </code></pre>
           </section>
         </section>
 
@@ -194,7 +246,9 @@ React.createElement('div', { className: 'commentBox' },
           <section>
             <h3>Unidirectional Data Flow</h3>
 
-            <p>TODO</p>
+            <figure>
+              <img src="/img/flux-architecture.png" />
+            </figure>
           </section>
 
           <section>
@@ -209,9 +263,20 @@ React.createElement('div', { className: 'commentBox' },
         </section>
 
         <section>
+          <h2>Code</h2>
+
+          <strong>src/pokemon-flux.js</strong>
+        </section>
+
+        <section>
           <h3>Drawbacks</h3>
 
-          <p>TODO</p>
+          <ul>
+            <li>Multiple stores mess;</li>
+            <li>Race conditions;</li>
+            <li>Unpredictable side effects;</li>
+            <li>Low-grade Views and Controller-Views separation.</li>
+          </ul>
         </section>
 
         <section>
@@ -286,6 +351,12 @@ React.createElement('div', { className: 'commentBox' },
 
             <p>TODO</p>
           </section>
+
+          <section>
+            <h3>Containers vs Components</h3>
+
+            <p>TODO</p>
+          </section>
         </section>
 
         <section>
@@ -311,13 +382,19 @@ React.createElement('div', { className: 'commentBox' },
         </section>
 
         <section>
+          <h2>Code</h2>
+
+          <strong>src/pokemon-redux.js</strong>
+        </section>
+
+        <section>
+          <h2>Bonus Code</h2>
+
+          <strong>src/pokemon-redux-time-traveler.js</strong>
+        </section>
+
+        <section>
           <h2>Examples</h2>
-
-          <section>
-            <h3>Time Traveling</h3>
-
-            <p>TODO</p>
-          </section>
 
           <section>
             <h3>ourhome.in.ua</h3>
@@ -365,12 +442,16 @@ React.createElement('div', { className: 'commentBox' },
         </section>
 
         <section>
-          <h2>Thanks</h2>
+          <h2>Credits</h2>
 
           <ul>
             <li><a href="http://wikipedia.org">Wikipedia</a></li>
             <li><a href="http://michelletilley.net/2014/02/24/creating-chrome-extensions-with-react.html">Creating Chrome Extensions with React</a></li>
           </ul>
+        </section>
+
+        <section>
+          <h2>Thanks</h2>
         </section>
       </div>
     </div>
