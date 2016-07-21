@@ -16,10 +16,8 @@
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+    <link rel="stylesheet" href="plugin/highlight/styles/zenburn.css">
     <link rel="stylesheet" href="css/overrides.css">
-
-    <!-- Code syntax highlighting -->
-    <link rel="stylesheet" href="lib/css/zenburn.css">
 
     <!-- Printing and PDF exports -->
     <script>
@@ -43,12 +41,10 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <section>
           <h1>Redux</h1>
           <h3>React, Flux and Young Time Traveler Guide</h3>
-          <p>
-            <small>
-              Created by Yevhen Shemet <br />
-              github: <a href="http://github.com/yevhene">yevhene</a>
-            </small>
-          </p>
+          <small>
+            Created by Yevhen Shemet <br />
+            github: <a href="http://github.com/yevhene">yevhene</a>
+          </small>
         </section>
 
         <section>
@@ -69,7 +65,11 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <section>
           <h2>About</h2>
 
-          <p>TODO</p>
+          <ul>
+            <li>React was created by <b>Jordan Walke</b>, a software engineer at <b>Facebook</b>;</li>
+            <li>It was first <b>deployed</b> on Facebook's newsfeed in <b>2011</b> and later on Instagram.com in 2012;</li>
+            <li>It was <b>open-sourced</b> at JSConf US in <b>May 2013</b>.</li>
+          </ul>
         </section>
 
         <section>
@@ -77,43 +77,71 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
           <section>
             <h3>View Only</h3>
-
-            <p>TODO</p>
           </section>
 
           <section>
             <h3>JSX</h3>
 
-            <p>TODO</p>
+            <i>HTML-like syntax for Components.</i>
+
+            <pre><code class="hljs" data-trim>
+&lt;div className="commentBox"&gt;
+  Hello, world! I am a CommentBox.
+&lt;/div&gt;
+            </code></pre>
+
+            <small>vs</small>
+
+            <pre><code class="hljs" data-trim>
+React.createElement('div', { className: 'commentBox' },
+  'Hello, world! I am a CommentBox.'
+);
+            </code></pre>
           </section>
 
           <section>
             <h3>Virtual DOM</h3>
 
-            <p>TODO</p>
+            <p>React creates an in-memory data structure cache, computes the resulting differences, and then updates the browser's displayed DOM efficiently.</p>
+
+            <p>This allows the programmer to write code as if the entire page is rendered on each change while the React libraries only render subcomponents that actually change.</p>
           </section>
         </section>
 
         <section>
-          <h2>State Flow</h2>
+          <h2>One-way data flow</h2>
 
-          <p>TODO</p>
+          <section>
+            <ul>
+              <li>Component receives set of immutable properties;</li>
+              <li>Component can pass properties down to child components;</li>
+              <li>Child component can interact with parent components using callbacks passed as properties.</li>
+            </ul>
+          </section>
 
-          <figure>
-            <figcaption>Inside Components</figcaption>
-          </figure>
+          <section>
+            <figure>
+              <img src="/img/react-data-flow.png" />
+
+              <figcaption>properties flow down; actions flow up.</figcaption>
+            </figure>
+          </section>
         </section>
 
         <section>
           <h2>Code</h2>
 
-          <p>TODO</p>
+          <strong>src/react-example.js</strong>
         </section>
 
         <section>
           <h2>Drawbacks</h2>
 
-          <p>TODO</p>
+          <ul>
+            <li>View Only</li>
+            <li>JSX</li>
+            <li><strong>One-way data flow</strong></li>
+          </ul>
         </section>
 
         <section>
@@ -338,6 +366,11 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
         <section>
           <h2>Thanks</h2>
+
+          <ul>
+            <li><a href="http://wikipedia.org">Wikipedia</a></li>
+            <li><a href="http://michelletilley.net/2014/02/24/creating-chrome-extensions-with-react.html">Creating Chrome Extensions with React</a></li>
+          </ul>
         </section>
       </div>
     </div>
