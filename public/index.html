@@ -106,18 +106,26 @@ React.createElement('div', { className: 'commentBox' },
 
             <p>This allows the programmer to write code as if the entire page is rendered on each change while the React libraries only render subcomponents that actually change.</p>
           </section>
-        </section>
-
-        <section>
-          <h2>One-way data flow</h2>
 
           <section>
+            <h3>One-way data flow</h3>
+
             <ul>
               <li>Component receives set of immutable properties;</li>
               <li>Component can pass properties down to child components;</li>
               <li>Child component can interact with parent components using callbacks passed as properties.</li>
             </ul>
           </section>
+        </section>
+
+        <section>
+          <h2>Code</h2>
+
+          <strong>Demo: src/react/app.js</strong>
+        </section>
+
+        <section>
+          <h2>State flow</h2>
 
           <section>
             <figure>
@@ -126,12 +134,6 @@ React.createElement('div', { className: 'commentBox' },
               <figcaption>properties flow down; actions flow up.</figcaption>
             </figure>
           </section>
-        </section>
-
-        <section>
-          <h2>Code</h2>
-
-          <strong>src/pokemon-react.js</strong>
         </section>
 
         <section>
@@ -180,7 +182,7 @@ const Dispatcher = require('flux').Dispatcher;
 
 const AppDispatcher = new Dispatcher();
 
-module.exports = AppDispatcher;
+export default AppDispatcher;
             </code></pre>
           </section>
 
@@ -192,11 +194,11 @@ module.exports = AppDispatcher;
             <pre><code class="hljs" data-trim>
 const EventEmitter = require('events').EventEmitter;
 
-const pokemons = [];
+let location = { lat: 49.233333, lng: 28.466667 };
 
-const PokemonStore = Object.assign({}, EventEmitter.prototype, {
-  list() {
-    return pokemons;
+const MapStore = Object.assign({}, EventEmitter.prototype, {
+  location() {
+    return location;
   }
 };
             </code></pre>
@@ -212,8 +214,8 @@ const AppDispatcher = require('../dispatcher/AppDispatcher');
 
 AppDispatcher.register(function(action) {
   switch(action.type) {
-    case 'ADD_POKEMON':
-      pokemons.push(action.pokemon);
+    case 'FOCUS_POKEMON':
+      location = action.pokemon.location;
       PokemonStore.emit('change');
   }
 }
@@ -221,19 +223,19 @@ AppDispatcher.register(function(action) {
           </section>
 
           <section>
-            <h3>Actions</h3>
+            <h3>Action creators</h3>
 
             <p>The dispatcher exposes a method that allows us to trigger a dispatch to the stores, and to include a payload of data, which we call an action. </p>
 
             <pre><code class="hljs" data-trim>
-const AppDispatcher = require('../dispatcher/AppDispatcher');
+const AppDispatcher = require('../dispatcher/AppDispatcher')
 
 const PokemonActions = {
   add(pokemon) {
     AppDispatcher.dispatch({
-      type: 'ADD_POKEMON',
-      pokemon: pokemon
-    });
+      type: 'FOCUS_POKEMON',
+      pokemon
+    })
   }
 }
             </code></pre>
@@ -241,31 +243,27 @@ const PokemonActions = {
         </section>
 
         <section>
-          <h2>Flow</h2>
+          <h2>Unidirectional Data Flow</h2>
 
-          <section>
-            <h3>Unidirectional Data Flow</h3>
-
-            <figure>
-              <img src="/img/flux-architecture.png" />
-            </figure>
-          </section>
-
-          <section>
-            <h3>State Flow</h3>
-
-            <p>TODO</p>
-
-            <figure>
-              <figcaption>Global and Inside Components</figcaption>
-            </figure>
-          </section>
+          <figure>
+            <img src="/img/flux-architecture.png" />
+          </figure>
         </section>
 
         <section>
           <h2>Code</h2>
 
-          <strong>src/pokemon-flux.js</strong>
+          <strong>Demo: src/flux/app.js</strong>
+        </section>
+
+        <section>
+          <h2>State Flow</h2>
+
+          <p>TODO</p>
+
+          <figure>
+            <figcaption>Global and Inside Components</figcaption>
+          </figure>
         </section>
 
         <section>
@@ -286,7 +284,9 @@ const PokemonActions = {
         <section>
           <h2>About</h2>
 
-          <p>TODO</p>
+          <p><strong>our code must manage more state than ever before</strong>, and don't <strong>lost control over the when, why, and how of its state</strong></p>
+
+          <p>Created by <strong>Dan Abramov (@gaearon)</strong></p>
         </section>
 
         <section>
@@ -295,53 +295,113 @@ const PokemonActions = {
           <section>
             <h3>Single source of truth</h3>
 
-            <p>TODO</p>
+            <p>The state of your whole application is stored in an object tree within a single store.</p>
           </section>
 
           <section>
             <h3>State is read-only</h3>
 
-            <p>TODO</p>
+            <p>The only way to mutate the state is to emit an action, an object describing what happened.</p>
           </section>
 
           <section>
             <h3>Changes are made with pure functions</h3>
 
+            <p>To specify how the state tree is transformed by actions, you write pure reducers.</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Architecture</h2>
+
+          <section>
+            <h3>Actions</h3>
+
+            <p>Similary to Flux but not dispatched imidiately.</p>
+
+            <pre><code class="hljs" data-trim>
+export const focusPokemon = (pokemon) => {
+  return {
+    type: 'FOCUS_POKEMON',
+    pokemon
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Store (and Dispatcher)</h3>
+
+            <pre><code class="hljs" data-trim>
+import { createStore } from 'redux'
+import reducers from './reducers'
+
+const store = createStore(reducers, INITIAL_STATE)
+
+export default store
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Reducer</h3>
+
+            <pre><code class="hljs" data-trim>
+const location = (state = { lat: 49.233333, lng: 28.466667 }, action) => {
+  switch (action.type) {
+  case FOCUS_POKEMON:
+    if (action.location) {
+      return action.pokemon.location
+    } else {
+      return defaultState
+    }
+  default:
+    return state
+  }
+}
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>State handling</h2>
+
+          <section>
+            <pre><code class="hljs" data-trim>
+const state = {
+  location: { lat: 49.233333, lng: 28.466667 },
+  pokemons: [{
+    nane: 'Pikachu',
+    img: 'http://example.com/pikachu.png',
+    location: { lat: 49.24, lng: 28.47 }
+  }]
+};
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Reducer Combination</h3>
+
+            <p>TODO</p>
+          </section>
+
+          <section>
+            <h3>Reducer Composition</h3>
+
             <p>TODO</p>
           </section>
         </section>
 
         <section>
-          <h2>Reducer</h2>
+          <h2>Mechanics</h2>
 
           <section>
-            <h3>Introducing</h3>
+            <h3>Context</h3>
 
             <p>TODO</p>
           </section>
 
           <section>
-            <h3>State Reduce</h3>
-
-            <p>TODO</p>
-          </section>
-
-          <section>
-            <h3>State Flow</h3>
-
-            <p>TODO</p>
-
-            <figure>
-              <figcaption>Global</figcaption>
-            </figure>
-          </section>
-        </section>
-
-        <section>
-          <h2>Examples</h2>
-
-          <section>
-            <h3>Store</h3>
+            <h3>Provider</h3>
 
             <p>TODO</p>
           </section>
@@ -360,7 +420,27 @@ const PokemonActions = {
         </section>
 
         <section>
+          <h2>Code</h2>
+
+          <strong>Demo: src/redux/app.js</strong>
+        </section>
+
+        <section>
+          <h2>State Flow</h2>
+
+          <p>TODO</p>
+
+          <figure>
+            <figcaption>Global</figcaption>
+          </figure>
+        </section>
+
+        <section>
           <h2>Middleware</h2>
+
+          <section>
+            <p>TODO</p>
+          </section>
 
           <section>
             <h3>Async</h3>
@@ -384,13 +464,19 @@ const PokemonActions = {
         <section>
           <h2>Code</h2>
 
-          <strong>src/pokemon-redux.js</strong>
+          <strong>Demo: src/redux-async/app.js</strong>
+        </section>
+
+        <section>
+          <h3>Development Tools</h3>
+
+          <strong>Demo</strong>
         </section>
 
         <section>
           <h2>Bonus Code</h2>
 
-          <strong>src/pokemon-redux-time-traveler.js</strong>
+          <strong>src/redux-bonus/app.js</strong>
         </section>
 
         <section>
@@ -410,23 +496,13 @@ const PokemonActions = {
         </section>
 
         <section>
-          <h2>Tools</h2>
-
-          <section>
-            <h3>Chrome Development Tools</h3>
-
-            <p>TODO</p>
-          </section>
+          <h2>Other</h2>
 
           <section>
             <h3>Hot reload</h3>
 
             <p>TODO</p>
           </section>
-        </section>
-
-        <section>
-          <h2>Other</h2>
 
           <section>
             <h3>Server Side Rendering</h3>
@@ -439,6 +515,15 @@ const PokemonActions = {
 
             <p>TODO</p>
           </section>
+        </section>
+
+        <section>
+          <h3>Drawbacks</h3>
+
+          <ul>
+            <li>Steep learning curve;</li>
+            <li>Bolerplate code.</li>
+          </ul>
         </section>
 
         <section>
