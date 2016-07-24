@@ -1,13 +1,13 @@
 import AppDispatcher from '../dispatcher/AppDispatcher'
 
-export const FILTER_POKEMONS = 'FILTER_POKEMONS'
+export const SEARCH_POKEMONS = 'SEARCH_POKEMONS'
 export const FOCUS_POKEMON = 'FOCUS_POKEMON'
 
 const PokemonActions = {
-  filter(search) {
+  search(q) {
     AppDispatcher.dispatch({
-      type: FILTER_POKEMONS,
-      search
+      type: SEARCH_POKEMONS,
+      q
     })
   },
 

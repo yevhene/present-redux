@@ -9,7 +9,7 @@ const Search = ({
     <input type="text"
            className="form-control"
            placeholder="Enter Pokemon Name"
-           onChange={e => PokemonActions.filter(e.target.value)} />
+           onChange={e => PokemonActions.search(e.target.value)} />
     <div className="input-group-addon">🔍</div>
   </div>
 )

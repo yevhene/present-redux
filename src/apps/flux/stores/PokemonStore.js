@@ -2,8 +2,9 @@ import { EventEmitter } from 'events'
 
 import AppDispatcher from '../dispatcher/AppDispatcher'
 import pokemons from '../../../data/pokemons.json'
+import search from '../lib/search'
 
-import { FILTER_POKEMONS, FOCUS_POKEMON } from '../actions/PokemonActions'
+import { SEARCH_POKEMONS, FOCUS_POKEMON } from '../actions/PokemonActions'
 
 const CHANGE_EVENT = 'change'
 
@@ -28,16 +29,10 @@ const PokemonStore = Object.assign({}, EventEmitter.prototype, {
   }
 })
 
-const filter = (search) => {
-  const regexp = new RegExp(`.*${search || ''}.*`, 'i')
-
-  return pokemons.filter(pokemon => pokemon.name.match(regexp))
-}
-
 AppDispatcher.register(action => {
   switch(action.type) {
-    case FILTER_POKEMONS:
-      filteredPokemons = filter(action.search)
+    case SEARCH_POKEMONS:
+      filteredPokemons = search(pokemons, action.q)
       PokemonStore.emit(CHANGE_EVENT)
       break
 

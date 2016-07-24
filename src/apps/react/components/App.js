@@ -4,6 +4,8 @@ import Map from './Map'
 import Search from './Search'
 import List from './List'
 
+import search from '../lib/search'
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -17,14 +19,8 @@ class App extends React.Component {
     }
   }
 
-  filter(search) {
-    const regexp = new RegExp(`.*${search || ''}.*`, 'i')
-
-    this.setState({
-      pokemons: this.props.pokemons.filter(pokemon =>
-        pokemon.name.match(regexp)
-      )
-    })
+  search(q) {
+    this.setState({ pokemons: search(this.props.pokemons, q) })
   }
 
   setLocation(location) {
@@ -45,7 +41,7 @@ class App extends React.Component {
                  this.setLocation(pokemon.location)
                } />
 
-          <Search onChange={this.filter.bind(this)} />
+          <Search onChange={this.search.bind(this)} />
 
           <List pokemons={this.state.pokemons}
                 onItemClick={(pokemon) =>
