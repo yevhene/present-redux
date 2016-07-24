@@ -1,8 +1,5 @@
 import React from 'react'
-
-import {
-  GoogleMapLoader, GoogleMap, Marker
-} from 'react-google-maps'
+import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
 
 class Map extends React.Component {
   render() {
@@ -12,7 +9,7 @@ class Map extends React.Component {
           <div className="map" />
         }
         googleMapElement={
-          <GoogleMap zoom={12} location={ this.props.location }>
+          <GoogleMap zoom={ 12 } center={ this.props.location }>
             {this.props.pokemons.map(pokemon => this.renderMarker(pokemon))}
           </GoogleMap>
         }

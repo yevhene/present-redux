@@ -9,7 +9,6 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      search: '',
       pokemons: this.props.pokemons,
       location: {
         lat: 49.2330407,
@@ -22,7 +21,6 @@ class App extends React.Component {
     const regexp = new RegExp(`.*${search || ''}.*`, 'i')
 
     this.setState({
-      search: search,
       pokemons: this.props.pokemons.filter(pokemon =>
         pokemon.name.match(regexp)
       )
