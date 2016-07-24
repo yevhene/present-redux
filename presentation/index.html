@@ -397,11 +397,30 @@ const state = {
           <section>
             <h3>Context</h3>
 
-            <p>TODO</p>
+            <p>Avoid using context directly unless you really know what you are doing. Using a library that happens to rely on context internally is relatively safe. <i>Dan Abramov</i></p>
           </section>
 
           <section>
             <h3>Provider</h3>
+
+            <pre><code class="hljs" data-trim>
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import store from './store'
+import App from './components/App'
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Containers vs Components</h3>
 
             <p>TODO</p>
           </section>
@@ -409,13 +428,24 @@ const state = {
           <section>
             <h3>Connect</h3>
 
-            <p>TODO</p>
-          </section>
+            <pre><code class="hljs" data-trim>
+import { connect } from 'react-redux'
+import { toggleTodo } from '../actions'
+import { fliter } from '../lib'
+import TodoList from '../components/TodoList'
 
-          <section>
-            <h3>Containers vs Components</h3>
+const mapStateToProps = (state) => ({
+  todos: filter(state.todos)
+})
 
-            <p>TODO</p>
+const mapDispatchToProps = (dispatch) => ({
+  onTodoClick: (id) => {
+    dispatch(toggleTodo(id))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+            </code></pre>
           </section>
         </section>
 
@@ -439,25 +469,79 @@ const state = {
           <h2>Middleware</h2>
 
           <section>
-            <p>TODO</p>
-          </section>
-
-          <section>
-            <h3>Async</h3>
-
-            <p>TODO</p>
-          </section>
-
-          <section>
-            <h3>Logging</h3>
-
-            <p>TODO</p>
+            <p>It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer. (And backwards).</p>
           </section>
 
           <section>
             <h3>State serialization</h3>
 
-            <p>TODO</p>
+            <pre><code class="hljs" data-trim>
+export const localStore = key => store => next => action => {
+  const result = next(action)
+  localStorage.setItem(key, JSON.stringify(store.getState()))
+  return result
+}
+
+export const localRestore = key => {
+    const stateString = localStorage.getItem(key)
+    if (stateString) {
+      return JSON.parse(stateString)
+    }
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>State serialization (...continue)</h3>
+
+            <pre><code class="hljs" data-trim>
+import { createStore, applyMiddleware } from 'redux'
+import { localStore, localRestore } from './middleware/local'
+import rootReducer from '../reducers'
+
+const key = 'apps.home'
+
+const createStoreWithMiddleware = applyMiddleware(
+  localStore(key)
+)(createStore)
+
+export default createStoreWithMiddleware(rootReducer, localRestore(key))
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Logging</h3>
+
+            <pre><code class="hljs" data-trim>
+export const logger = store => next => action => {
+  const result = next(action)
+  console.log(JSON.stringify(store.getState()))
+  return result
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Async</h3>
+
+            <pre><code class="hljs" data-trim>
+const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+
+function increment() {
+  return {
+    type: INCREMENT_COUNTER
+  };
+}
+
+function incrementAsync() {
+  return dispatch => {
+    setTimeout(() => {
+      // Yay! Can invoke sync or async actions with `dispatch`
+      dispatch(increment());
+    }, 1000);
+  };
+}
+            </code></pre>
           </section>
         </section>
 
@@ -501,19 +585,21 @@ const state = {
           <section>
             <h3>Hot reload</h3>
 
-            <p>TODO</p>
+            <strong>store#replaceReducer(nextReducer)</strong>
+
+            <p>Replaces the reducer currently used by the store to calculate the state. You might also need this if you implement a hot reloading mechanism for Redux.</p>
           </section>
 
           <section>
             <h3>Server Side Rendering</h3>
 
-            <p>TODO</p>
+            <p>We must also send the state of our app along in our response, so the client can use it as the initial state.</p>
           </section>
 
           <section>
             <h3>Testing</h3>
 
-            <p>TODO</p>
+            <p>Because most of the Redux code you write are functions, and many of them are pure, they are easy to test without mocking.</p>
           </section>
         </section>
 
