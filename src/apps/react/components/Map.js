@@ -12,16 +12,16 @@ class Map extends React.Component {
           <div className="map" />
         }
         googleMapElement={
-          <GoogleMap {...this.options()}>
-            {this.renderMarkers()}
+          <GoogleMap zoom={12} location={ this.props.location }>
+            {this.props.pokemons.map(pokemon => this.renderMarker(pokemon))}
           </GoogleMap>
         }
       />
     )
   }
 
-  renderMarkers() {
-    return this.props.pokemons.map((pokemon) =>
+  renderMarker(pokemon) {
+    return (
       <Marker
         key={ pokemon.id }
         position={ pokemon.location }
@@ -29,16 +29,6 @@ class Map extends React.Component {
         icon={ pokemon.pin }
         onClick={ () => this.props.onMarkerClick(pokemon) } />
     )
-  }
-
-  options() {
-    return {
-      zoom: 12,
-      center: this.props.location,
-      options: {
-        scrollwheel: true
-      }
-    }
   }
 }
 

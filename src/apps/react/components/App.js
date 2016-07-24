@@ -4,7 +4,6 @@ import Map from './Map'
 import Search from './Search'
 import List from './List'
 
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -44,12 +43,16 @@ class App extends React.Component {
         <div className="container">
           <Map pokemons={this.state.pokemons}
                location={this.state.location}
-               onMarkerClick={(pokemon) => this.setLocation(pokemon.location)}/>
+               onMarkerClick={(pokemon) =>
+                 this.setLocation(pokemon.location)
+               } />
 
           <Search onChange={this.filter.bind(this)} />
 
           <List pokemons={this.state.pokemons}
-                onItemClick={(pokemon) => this.setLocation(pokemon.location)} />
+                onItemClick={(pokemon) =>
+                  this.setLocation(pokemon.location)
+                } />
         </div>
       </div>
     )

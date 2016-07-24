@@ -1,15 +1,15 @@
 {
-  "name": "learn-redux",
+  "name": "present-redux-src",
   "version": "1.0.0",
-  "description": ":) ",
+  "description": "Presentation sources",
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/wesbos/Learn-Redux.git"
   },
-  "author": "Wes Bos",
+  "author": "Yevhen Shemet",
   "license": "MIT",
   "homepage": "https://github.com/wesbos/Learn-Redux",
   "dependencies": {
