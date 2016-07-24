@@ -1,15 +1,15 @@
 import React from 'react'
 
 const Item = ({
-  pokemon
+  pokemon, onClick
 }) => (
-  <div className="card">
-    <img className="card-img-top" src={pokemon.image} alt={pokemon.name} />
+  <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    <div className="pokemon card text-xs-center" onClick={() => onClick(pokemon)}>
+      <div className="card-header">{pokemon.name}</div>
 
-    <div className="card-block">
-      <h4 className="card-title">{pokemon.name}</h4>
-      <p className="card-text"></p>
-      <a href="#" className="btn btn-primary">On map</a>
+      <img className="card-img-top" src={pokemon.image} alt={pokemon.name} />
+
+      <div className="card-footer text-muted">#{pokemon.id}</div>
     </div>
   </div>
 )

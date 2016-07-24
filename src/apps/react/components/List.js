@@ -3,13 +3,13 @@ import React from 'react'
 import Item from './Item'
 
 const List = ({
-  pokemons
+  pokemons, onItemClick
 }) => (
-  <div>
+  <section className="row">
     {pokemons.map(pokemon => (
-      <Item key={pokemon.id} pokemon={pokemon} />
+      <Item key={pokemon.id} pokemon={pokemon} onClick={onItemClick} />
     ))}
-  </div>
+  </section>
 )
 
 export default List
