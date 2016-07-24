@@ -12,10 +12,7 @@ class App extends React.Component {
 
     this.state = {
       pokemons: this.props.pokemons,
-      location: {
-        lat: 49.2330407,
-        lng: 28.4683191
-      }
+      focusedPokemon: null
     }
   }
 
@@ -23,8 +20,8 @@ class App extends React.Component {
     this.setState({ pokemons: search(this.props.pokemons, q) })
   }
 
-  setLocation(location) {
-    this.setState({ location })
+  focus(pokemon) {
+    this.setState({ focusedPokemon: pokemon })
   }
 
   render() {
@@ -36,17 +33,13 @@ class App extends React.Component {
 
         <div className="container">
           <Map pokemons={this.state.pokemons}
-               location={this.state.location}
-               onMarkerClick={(pokemon) =>
-                 this.setLocation(pokemon.location)
-               } />
+               focusedPokemon={this.state.focusedPokemon}
+               onMarkerClick={(pokemon) => this.focus(pokemon)} />
 
           <Search onChange={this.search.bind(this)} />
 
           <List pokemons={this.state.pokemons}
-                onItemClick={(pokemon) =>
-                  this.setLocation(pokemon.location)
-                } />
+                onItemClick={(pokemon) => this.focus(pokemon)} />
         </div>
       </div>
     )

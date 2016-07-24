@@ -39,11 +39,11 @@ class App extends React.Component {
         </nav>
 
         <div className="container">
-          <Map pokemons={this.state.pokemons} />
+          <Map pokemons={ this.state.pokemons } />
 
           <Search />
 
-          <List pokemons={this.state.pokemons} />
+          <List pokemons={ this.state.pokemons } />
         </div>
       </div>
     )

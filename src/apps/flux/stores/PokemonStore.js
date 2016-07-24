@@ -4,20 +4,20 @@ import AppDispatcher from '../dispatcher/AppDispatcher'
 import pokemons from '../../../data/pokemons.json'
 import search from '../lib/search'
 
-import { SEARCH_POKEMONS, FOCUS_POKEMON } from '../actions/PokemonActions'
+import { FOCUS_POKEMON, SEARCH_POKEMONS } from '../actions/PokemonActions'
 
 const CHANGE_EVENT = 'change'
 
-let filteredPokemons = pokemons
 let focusedPokemon = null
+let filteredPokemons = pokemons
 
 const PokemonStore = Object.assign({}, EventEmitter.prototype, {
-  list() {
-    return filteredPokemons
-  },
-
   focused() {
     return focusedPokemon
+  },
+
+  list() {
+    return filteredPokemons
   }
 }, {
   addChangeListener: function(callback) {
@@ -31,13 +31,13 @@ const PokemonStore = Object.assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(action => {
   switch(action.type) {
-    case SEARCH_POKEMONS:
-      filteredPokemons = search(pokemons, action.q)
+    case FOCUS_POKEMON:
+      focusedPokemon = action.pokemon
       PokemonStore.emit(CHANGE_EVENT)
       break
 
-    case FOCUS_POKEMON:
-      focusedPokemon = action.pokemon
+    case SEARCH_POKEMONS:
+      filteredPokemons = search(pokemons, action.q)
       PokemonStore.emit(CHANGE_EVENT)
       break
 
@@ -45,6 +45,5 @@ AppDispatcher.register(action => {
       // no op
   }
 })
-
 
 export default PokemonStore

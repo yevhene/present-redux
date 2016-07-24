@@ -7,7 +7,9 @@ const List = ({
 }) => (
   <section className="row">
     {pokemons.map(pokemon => (
-      <Item key={pokemon.id} pokemon={pokemon} onClick={onItemClick} />
+      <div key={ pokemon.id } className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <Item key={ pokemon.id } pokemon={ pokemon } onClick={ onItemClick } />
+      </div>
     ))}
   </section>
 )
