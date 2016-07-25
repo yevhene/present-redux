@@ -19,7 +19,7 @@ module.exports = (APP) => ({
   module: {
     loaders: [{
       test: /\.js$/,
-      include: path.join(__dirname, 'apps', APP),
+      include: path.join(__dirname, 'apps'),
       loaders: ['babel']
     }, {
       test: /\.styl$/,
