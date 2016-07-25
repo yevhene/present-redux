@@ -36,7 +36,7 @@ class App extends React.Component {
                focusedPokemon={this.state.focusedPokemon}
                onMarkerClick={(pokemon) => this.focus(pokemon)} />
 
-          <Search onChange={this.search.bind(this)} />
+          <Search onChange={(search) => this.search(search)} />
 
           <List pokemons={this.state.pokemons}
                 onItemClick={(pokemon) => this.focus(pokemon)} />

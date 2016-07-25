@@ -10,7 +10,7 @@ class Map extends React.Component {
         }
         googleMapElement={
           <GoogleMap zoom={ 12 } center={ this.getLocation() }>
-            {this.props.pokemons.map(pokemon => this.renderMarker(pokemon))}
+            { this.props.pokemons.map(pokemon => this.renderMarker(pokemon)) }
           </GoogleMap>
         }
       />

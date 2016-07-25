@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
 
+import { focus } from '../actions/focus'
+
 class Map extends React.Component {
   render() {
     return (
@@ -11,7 +13,7 @@ class Map extends React.Component {
         }
         googleMapElement={
           <GoogleMap zoom={ 12 } center={ this.props.location }>
-            {this.props.items.map(item => this.renderMarker(item))}
+            { this.props.items.map(item => this.renderMarker(item)) }
           </GoogleMap>
         }
       />
@@ -42,7 +44,7 @@ const mapStateToProps = ({ focus: focusedPokemon }) => {
 
 const mapDispatchToProps = dispatch => ({
   onMarkerClick(pokemon) {
-    dispatch(focusPokemon(pokemon))
+    dispatch(focus(pokemon))
   }
 })
 

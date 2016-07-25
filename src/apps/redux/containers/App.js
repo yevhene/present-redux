@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import search from '../lib/search'
 
-import Map from './Map'
-import Search from './Search'
-import List from './List'
+import Map from '../components/Map'
+import Search from '../components/Search'
+import List from '../components/List'
 
 const App = ({
   pokemons

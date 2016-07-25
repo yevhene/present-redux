@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setSearch } from '../actions/search'
+import { search } from '../actions/search'
 
 const Search = ({
   onChange
@@ -10,14 +10,14 @@ const Search = ({
     <input type="text"
            className="form-control"
            placeholder="Enter Pokemon Name"
-           onChange={e => onChange(e.target.value)} />
+           onChange={ e => onChange(e.target.value) } />
     <div className="input-group-addon">🔍</div>
   </div>
 )
 
 const mapDispatchToProps = dispatch => ({
   onChange(q) {
-    dispatch(setSearch(q))
+    dispatch(search(q))
   }
 })
 

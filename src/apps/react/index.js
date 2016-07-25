@@ -6,4 +6,4 @@ import App from './components/App'
 import pokemons from '../../data/pokemons.json'
 import css from '../../styles/index.styl'
 
-render(<App pokemons={pokemons} />, document.getElementById('root'))
+render(<App pokemons={ pokemons } />, document.getElementById('root'))

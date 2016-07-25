@@ -1,8 +1,8 @@
-export const SET_SEARCH = 'SET_SEARCH'
+export const SEARCH_POKEMONS = 'SEARCH_POKEMONS'
 
-export const setSearch = (search) => {
+export const search = (q) => {
   return {
-    type: SET_SEARCH,
-    search
+    type: SEARCH_POKEMONS,
+    q
   }
 }
