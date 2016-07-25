@@ -4,12 +4,16 @@ import { Provider } from 'react-redux'
 
 import css from '../../styles/index.styl'
 
-import App from './containers/App'
-import store from './store/store.js'
+import App from '../redux/containers/App'
+import TimeMachine from './components/TimeMachine'
+import store from '../redux/store/store'
 
 render(
   <Provider store={ store }>
-    <App />
+    <div>
+      <TimeMachine store={ store } />
+      <App />
+    </div>
   </Provider>,
   document.getElementById('root')
 )
