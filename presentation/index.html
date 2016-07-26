@@ -407,7 +407,25 @@ export default rootReducer
           <section>
             <h3>Reducer Composition</h3>
 
-            <p>TODO</p>
+            <pre><code class="hljs" data-trim>
+export default function pokemons(state = [], action) {
+  switch (action.type) {
+    case UPDATE_POKEMON_OWNER:
+      return state.map(element => pokemon(element, action))
+    default:
+      return state
+  }
+}
+
+function pokemon(state, action) {
+  switch (action.type) {
+    case UPDATE_POKEMON_OWNER:
+      return { ...state, owner: action.owner }
+    default:
+      return state
+  }
+}
+            </code></pre>
           </section>
         </section>
 
