@@ -1,16 +1,18 @@
-import { createStore } from 'redux'
+import { createStore, compose } from 'redux'
 
 import rootReducer from './reducers/index'
 
 import pokemons from '../../data/pokemons.json'
 
-const defaultState = {
+const initialState = {
   pokemons,
   search: '',
   focus: null
 };
 
-const store = createStore(rootReducer, defaultState)
+const store = createStore(rootReducer, initialState, compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
 
 if (module.hot) {
   module.hot.accept('./reducers/', () => {
