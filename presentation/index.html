@@ -50,7 +50,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <section>
           <h2>About</h2>
 
-          <p>TODO</p>
+          <img src="/img/about.jpg" />
         </section>
 
         <section>
@@ -119,21 +119,21 @@ React.createElement('div', { className: 'commentBox' },
         </section>
 
         <section>
-          <h2>Code</h2>
-
-          <strong>Demo: src/react/app.js</strong>
-        </section>
-
-        <section>
           <h2>State flow</h2>
+
+          <p>TODO</p>
 
           <section>
             <figure>
-              <img src="/img/react-data-flow.png" />
-
               <figcaption>properties flow down; actions flow up.</figcaption>
             </figure>
           </section>
+        </section>
+
+        <section>
+          <h2>Code</h2>
+
+          <strong>Demo: src/react/app.js</strong>
         </section>
 
         <section>
@@ -178,11 +178,11 @@ React.createElement('div', { className: 'commentBox' },
             <p>A <strong>Single Dispatcher</strong> is the central hub that manages all data flow in a Flux application. It is essentially a registry of callbacks.</p>
 
             <pre><code class="hljs" data-trim>
-const Dispatcher = require('flux').Dispatcher;
+import { Dispatcher } from 'flux'
 
-const AppDispatcher = new Dispatcher();
+const AppDispatcher = new Dispatcher()
 
-export default AppDispatcher;
+export default AppDispatcher
             </code></pre>
           </section>
 
@@ -192,13 +192,13 @@ export default AppDispatcher;
             <p>Stores contain the application state...</p>
 
             <pre><code class="hljs" data-trim>
-const EventEmitter = require('events').EventEmitter;
+import { EventEmitter } from 'events'
 
-let location = { lat: 49.233333, lng: 28.466667 };
+let focusedPokemon = null
 
-const MapStore = Object.assign({}, EventEmitter.prototype, {
-  location() {
-    return location;
+const PokemonStore = Object.assign({}, EventEmitter.prototype, {
+  focused() {
+    return focusedPokemon
   }
 };
             </code></pre>
@@ -210,13 +210,16 @@ const MapStore = Object.assign({}, EventEmitter.prototype, {
             <p>... and logic.</p>
 
             <pre><code class="hljs" data-trim>
-const AppDispatcher = require('../dispatcher/AppDispatcher');
+import AppDispatcher from '../dispatcher/AppDispatcher'
+
+const CHANGE_EVENT = 'change'
 
 AppDispatcher.register(function(action) {
   switch(action.type) {
-    case 'FOCUS_POKEMON':
-      location = action.pokemon.location;
-      PokemonStore.emit('change');
+    case FOCUS_POKEMON:
+      focusedPokemon = action.pokemon
+      PokemonStore.emit(CHANGE_EVENT)
+      break
   }
 }
             </code></pre>
@@ -225,15 +228,15 @@ AppDispatcher.register(function(action) {
           <section>
             <h3>Action creators</h3>
 
-            <p>The dispatcher exposes a method that allows us to trigger a dispatch to the stores, and to include a payload of data, which we call an action. </p>
-
             <pre><code class="hljs" data-trim>
-const AppDispatcher = require('../dispatcher/AppDispatcher')
+import AppDispatcher from '../dispatcher/AppDispatcher'
+
+export const FOCUS_POKEMON = 'FOCUS_POKEMON'
 
 const PokemonActions = {
-  add(pokemon) {
+  focus(pokemon) {
     AppDispatcher.dispatch({
-      type: 'FOCUS_POKEMON',
+      type: FOCUS_POKEMON,
       pokemon
     })
   }
@@ -251,12 +254,6 @@ const PokemonActions = {
         </section>
 
         <section>
-          <h2>Code</h2>
-
-          <strong>Demo: src/flux/app.js</strong>
-        </section>
-
-        <section>
           <h2>State Flow</h2>
 
           <p>TODO</p>
@@ -264,6 +261,12 @@ const PokemonActions = {
           <figure>
             <figcaption>Global and Inside Components</figcaption>
           </figure>
+        </section>
+
+        <section>
+          <h2>Code</h2>
+
+          <strong>Demo: src/flux/app.js</strong>
         </section>
 
         <section>
@@ -284,7 +287,7 @@ const PokemonActions = {
         <section>
           <h2>About</h2>
 
-          <p><strong>our code must manage more state than ever before</strong>, and don't <strong>lost control over the when, why, and how of its state</strong></p>
+          <p>Our code must manage more state than ever before, and don't lost control over the when, why, and how of its state</p>
 
           <p>Created by <strong>Dan Abramov (@gaearon)</strong></p>
         </section>
@@ -320,9 +323,11 @@ const PokemonActions = {
             <p>Similary to Flux but not dispatched imidiately.</p>
 
             <pre><code class="hljs" data-trim>
-export const focusPokemon = (pokemon) => {
+export const FOCUS_POKEMON = 'FOCUS_POKEMON'
+
+export const focus = (pokemon) => {
   return {
-    type: 'FOCUS_POKEMON',
+    type: FOCUS_POKEMON,
     pokemon
   }
 }
@@ -333,10 +338,10 @@ export const focusPokemon = (pokemon) => {
             <h3>Store (and Dispatcher)</h3>
 
             <pre><code class="hljs" data-trim>
-import { createStore } from 'redux'
-import reducers from './reducers'
+import { createStore, compose } from 'redux'
+import rootReducer from './reducers/index'
 
-const store = createStore(reducers, INITIAL_STATE)
+const store = createStore(rootReducer, INITIAL_STATE);
 
 export default store
             </code></pre>
@@ -346,18 +351,20 @@ export default store
             <h3>Reducer</h3>
 
             <pre><code class="hljs" data-trim>
-const location = (state = { lat: 49.233333, lng: 28.466667 }, action) => {
+import { FOCUS_POKEMON } from '../actions/focus'
+
+export default function focus(state = [], action) {
   switch (action.type) {
   case FOCUS_POKEMON:
-    if (action.location) {
-      return action.pokemon.location
-    } else {
-      return defaultState
-    }
+    return action.pokemon
   default:
     return state
   }
 }
+            </code></pre>
+
+            <pre><code class="hljs" data-trim>
+actions.reduce(reducer, initialState) #=> currentState
             </code></pre>
           </section>
         </section>
@@ -368,12 +375,13 @@ const location = (state = { lat: 49.233333, lng: 28.466667 }, action) => {
           <section>
             <pre><code class="hljs" data-trim>
 const state = {
-  location: { lat: 49.233333, lng: 28.466667 },
-  pokemons: [{
-    nane: 'Pikachu',
-    img: 'http://example.com/pikachu.png',
+  focus: {
+    name: 'Pikachu',
+    image: 'http://example.com/pikachu.png',
     location: { lat: 49.24, lng: 28.47 }
-  }]
+  },
+  search: 'Bulb',
+  pokemons: [...]
 };
             </code></pre>
           </section>
@@ -381,7 +389,19 @@ const state = {
           <section>
             <h3>Reducer Combination</h3>
 
-            <p>TODO</p>
+            <pre><code class="hljs" data-trim>
+import { combineReducers } from 'redux'
+
+import pokemons from './pokemons'
+import focus from './focus'
+import search from './search'
+
+const rootReducer = combineReducers({
+  pokemons, focus, search
+})
+
+export default rootReducer
+            </code></pre>
           </section>
 
           <section>
@@ -411,7 +431,7 @@ import store from './store'
 import App from './components/App'
 
 render(
-  <Provider store={store}>
+  <Provider store={ store }>
     <App />
   </Provider>,
   document.getElementById('root')
@@ -422,37 +442,35 @@ render(
           <section>
             <h3>Containers vs Components</h3>
 
-            <p>TODO</p>
+            <ul>
+              <li><strong>Containers</strong> are concerned with <i>how things work</i>, and <strong>Components</strong> about <i>how things look</i>;</li>
+              <li><strong>Containers</strong> are often <i>stateful</i> and <strong>Components</strong> is often <i>stateless</i>;</li>
+              <li><strong>Containers</strong> highly <i>application aware</i> and <strong>Containers</strong> is <i>loosely bound</i>.</li>
+            </ul>
           </section>
 
           <section>
             <h3>Connect</h3>
 
             <pre><code class="hljs" data-trim>
+import React from 'react'
 import { connect } from 'react-redux'
-import { toggleTodo } from '../actions'
-import { fliter } from '../lib'
-import TodoList from '../components/TodoList'
 
-const mapStateToProps = (state) => ({
-  todos: filter(state.todos)
+const Search = ({ q, onChange }) => (<div>...</div>)
+
+const mapStateToProps = state => ({
+  q: state.search
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  onTodoClick: (id) => {
-    dispatch(toggleTodo(id))
+const mapDispatchToProps = dispatch => ({
+  onChange(q) {
+    dispatch(search(q))
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+export default connect(mapStateToProps, mapDispatchToProps)(Search)
             </code></pre>
           </section>
-        </section>
-
-        <section>
-          <h2>Code</h2>
-
-          <strong>Demo: src/redux/app.js</strong>
         </section>
 
         <section>
@@ -466,47 +484,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
         </section>
 
         <section>
+          <h2>Code</h2>
+
+          <strong>Demo: src/redux/app.js</strong>
+        </section>
+
+        <section>
           <h2>Middleware</h2>
 
           <section>
             <p>It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer. (And backwards).</p>
-          </section>
-
-          <section>
-            <h3>State serialization</h3>
-
-            <pre><code class="hljs" data-trim>
-export const localStore = key => store => next => action => {
-  const result = next(action)
-  localStorage.setItem(key, JSON.stringify(store.getState()))
-  return result
-}
-
-export const localRestore = key => {
-    const stateString = localStorage.getItem(key)
-    if (stateString) {
-      return JSON.parse(stateString)
-    }
-}
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>State serialization (...continue)</h3>
-
-            <pre><code class="hljs" data-trim>
-import { createStore, applyMiddleware } from 'redux'
-import { localStore, localRestore } from './middleware/local'
-import rootReducer from '../reducers'
-
-const key = 'apps.home'
-
-const createStoreWithMiddleware = applyMiddleware(
-  localStore(key)
-)(createStore)
-
-export default createStoreWithMiddleware(rootReducer, localRestore(key))
-            </code></pre>
           </section>
 
           <section>
@@ -522,23 +509,42 @@ export const logger = store => next => action => {
           </section>
 
           <section>
+            <h3>State serialization</h3>
+
+            <pre><code class="hljs" data-trim>
+export const localStore = key => store => next => action => {
+  const result = next(action)
+  localStorage.setItem(key, JSON.stringify(store.getState()))
+  return result
+}
+
+export const localRestore = key => {
+  const stateString = localStorage.getItem(key)
+  if (stateString) {
+    return JSON.parse(stateString)
+  }
+}
+            </code></pre>
+          </section>
+
+          <section>
             <h3>Async</h3>
 
             <pre><code class="hljs" data-trim>
-const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+const SET_POKEMONS = 'SET_POKEMONS';
 
-function increment() {
+export function setPokemons(pokemons) {
   return {
-    type: INCREMENT_COUNTER
+    type: SET_POKEMONS,
+    pokemons
   };
 }
 
-function incrementAsync() {
+export function fetchPokemons() {
   return dispatch => {
-    setTimeout(() => {
-      // Yay! Can invoke sync or async actions with `dispatch`
-      dispatch(increment());
-    }, 1000);
+    return fetch('/pokemons')
+      .then(response => response.json())
+      .then(pokemons => dispatch(setPokemons(pokemons)))
   };
 }
             </code></pre>
@@ -560,7 +566,7 @@ function incrementAsync() {
         <section>
           <h2>Bonus Code</h2>
 
-          <strong>src/redux-bonus/app.js</strong>
+          <strong>src/redux-time-machine/app.js</strong>
         </section>
 
         <section>
@@ -617,7 +623,6 @@ function incrementAsync() {
 
           <ul>
             <li><a href="http://wikipedia.org">Wikipedia</a></li>
-            <li><a href="http://michelletilley.net/2014/02/24/creating-chrome-extensions-with-react.html">Creating Chrome Extensions with React</a></li>
             <li><a href="http://bulbapedia.bulbagarden.net/">Bulbapedia</a></li>
           </ul>
         </section>
