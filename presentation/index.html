@@ -449,9 +449,9 @@ import store from './store'
 import App from './components/App'
 
 render(
-  <Provider store={ store }>
-    <App />
-  </Provider>,
+  &lt;Provider store={ store }&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
   document.getElementById('root')
 )
             </code></pre>
@@ -463,7 +463,7 @@ render(
             <ul>
               <li><strong>Containers</strong> are concerned with <i>how things work</i>, and <strong>Components</strong> about <i>how things look</i>;</li>
               <li><strong>Containers</strong> are often <i>stateful</i> and <strong>Components</strong> is often <i>stateless</i>;</li>
-              <li><strong>Containers</strong> highly <i>application aware</i> and <strong>Containers</strong> is <i>loosely bound</i>.</li>
+              <li><strong>Containers</strong> highly <i>application aware</i> and <strong>Components</strong> is <i>loosely bound</i>.</li>
             </ul>
           </section>
 
